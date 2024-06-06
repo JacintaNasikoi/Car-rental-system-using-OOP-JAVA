@@ -1,0 +1,137 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class Car {
+    private String make;
+    private String model;
+    private int year;
+    private double rentalRate;
+    private boolean isRented;
+
+    public Car(String make, String model, int year, double rentalRate) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.rentalRate = rentalRate;
+        this.isRented = false;
+    }
+
+    public boolean isRented() {
+        return isRented;
+    }
+
+    public void rentCar() {
+        isRented = true;
+    }
+
+    public void returnCar() {
+        isRented = false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d %s %s - $%.2f/day", year, make, model, rentalRate);
+    }
+}
+
+class Customer {
+    private String name;
+    private String licenseNumber;
+
+    public Customer(String name, String licenseNumber) {
+        this.name = name;
+        this.licenseNumber = licenseNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+}
+
+class RentalSystem {
+    private List<Car> cars;
+    private List<Customer> customers;
+
+    public RentalSystem() {
+        this.cars = new ArrayList<>();
+        this.customers = new ArrayList<>();
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+        System.out.println("Added: " + car);
+    }
+
+    public void registerCustomer(Customer customer) {
+        customers.add(customer);
+        System.out.println("Registered customer: " + customer.getName());
+    }
+
+    public void displayAvailableCars() {
+        List<Car> availableCars = cars.stream().filter(car -> !car.isRented()).collect(Collectors.toList());
+        if (availableCars.isEmpty()) {
+            System.out.println("No cars available at the moment.");
+        } else {
+            System.out.println("Available cars:");
+            availableCars.forEach(System.out::println);
+        }
+    }
+
+    public boolean rentCar(Customer customer, Car car) {
+        if (!car.isRented()) {
+            car.rentCar();
+            System.out.println(customer.getName() + " has rented " + car);
+            return true;
+        } else {
+            System.out.println("Sorry, " + car + " is already rented.");
+            return false;
+        }
+    }
+
+    public void returnCar(Customer customer, Car car) {
+        if (car.isRented()) {
+            car.returnCar();
+            System.out.println(customer.getName() + " has returned " + car);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        RentalSystem rentalSystem = new RentalSystem();
+
+        // Adding cars
+        Car car1 = new Car("Toyota", "Camry", 2020, 50);
+        Car car2 = new Car("Honda", "Civic", 2019, 45);
+        Car car3 = new Car("Ford", "Mustang", 2021, 70);
+        rentalSystem.addCar(car1);
+        rentalSystem.addCar(car2);
+        rentalSystem.addCar(car3);
+
+        // Registering customers
+        Customer customer1 = new Customer("Alice", "A12345");
+        Customer customer2 = new Customer("Bob", "B67890");
+        rentalSystem.registerCustomer(customer1);
+        rentalSystem.registerCustomer(customer2);
+
+        // Display available cars
+        rentalSystem.displayAvailableCars();
+
+        // Renting a car
+        rentalSystem.rentCar(customer1, car1);
+
+        // Display available cars
+        rentalSystem.displayAvailableCars();
+
+        // Returning a car
+        rentalSystem.returnCar(customer1, car1);
+
+        // Display available cars
+        rentalsm.displayAvailableCars();
+    }
+}

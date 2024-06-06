@@ -1,0 +1,33 @@
+public class TestCarRentalSystem {
+    public static void main(String[] args) {
+        RentalAgency agency = new RentalAgency();
+
+        // Create and add cars
+        Car car1 = new Car("ABC123", "Toyota Camry");
+        Car car2 = new Car("XYZ789", "Honda Accord");
+        agency.addCar(car1);
+        agency.addCar(car2);
+
+        // Create and add customers
+        Customer customer1 = new Customer("John Doe", "D12345");
+        Customer customer2 = new Customer("Jane Smith", "D67890");
+        agency.addCustomer(customer1);
+        agency.addCustomer(customer2);
+
+        // Test renting a car
+        boolean rentStatus1 = agency.rentCar("ABC123", "D12345");
+        System.out.println("Rent status (should be true): " + rentStatus1);
+
+        // Test renting an already rented car
+        boolean rentStatus2 = agency.rentCar("ABC123", "D67890");
+        System.out.println("Rent status (should be false): " + rentStatus2);
+
+        // Test returning a car
+        boolean returnStatus1 = agency.returnCar("ABC123");
+        System.out.println("Return status (should be true): " + returnStatus1);
+
+        // Test returning a car that was not rented
+        boolean returnStatus2 = agency.returnCar("XYZ789");
+        System.out.println("Return status (should be false): " + returnStatus2);
+    }
+}

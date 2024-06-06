@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class RentalAgency {
+    private List<Car> cars;
+    private List<Customer> customers;
+
+    public RentalAgency() {
+        this.cars = new ArrayList<>();
+        this.customers = new ArrayList<>();
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public void addCustomer(Customer customer) {
+        customers.add(customer);
+    }
+
+    public Car findCarByRegistrationNumber(String registrationNumber) {
+        for (Car car : cars) {
+            if (car.getRegistrationNumber().equals(registrationNumber)) {
+                return car;
+            }
+        }
+        return null;
+    }
+
+    public Customer findCustomerByDrivingLicenseNumber(String drivingLicenseNumber) {
+        for (Customer customer : customers) {
+            if (customer.getDrivingLicenseNumber().equals(drivingLicenseNumber)) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    public boolean rentCar(String registrationNumber, String drivingLicenseNumber) {
+        Car car = findCarByRegistrationNumber(registrationNumber);
+        if (car != null && !car.isRented()) {
+            car.rentCar();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean returnCar(String registrationNumber) {
+        Car car = findCarByRegistrationNumber(registrationNumber);
+        if (car != null && car.isRented()) {
+            car.returnCar();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "RentalAgency{" +
+                "cars=" + cars +
+                ", customers=" + customers +
+                '}';
+    }
+}
+
